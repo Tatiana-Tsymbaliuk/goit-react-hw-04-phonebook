@@ -1,16 +1,61 @@
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
-  );
-};
+
+import React, {useState, useEffect} from 'react';
+import { nanoid } from 'nanoid'
+import ContactForm from 'components/FormPhonebook/ContactForm'
+import ContactList from 'components/ContactList/ContactList';
+import Filter from 'components/Filter/Filter';
+
+export default function App(){
+ 
+  const [contacts, setContacts] = useState([])
+  const [filter, setFilter] = useState('');
+
+    const handleSubmit = data => {
+      const newContacts ={
+        id: nanoid(), 
+        ...data 
+      }
+      const someContact = contacts.some(item=> item.name.toLowerCase() === data.name.toLowerCase())
+      if (someContact) {
+        alert(`Name is already in contacts`);      
+      } 
+        setContacts(prevState => [...prevState, newContacts]);  
+    };
+ 
+    const changeFilter =(e)=>{
+      setFilter(e.currentTarget.value)
+    }
+   
+    const deleteTodo = (todoId) =>{
+      setContacts(prevState =>(
+      prevState.contacts.filter(contact=>contact.id !== todoId)
+    ));}
+
+
+debugger
+    useEffect(() => {
+      const parsedContacts = JSON.parse(localStorage.getItem("contacts"));
+      if (parsedContacts) {
+        setContacts(parsedContacts);
+      }
+    }, []);
+  
+    useEffect(() => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts]);
+      
+        const getVisibleContacts=()=>{   
+        const normalizedFilter = filter.toLowerCase();
+        return contacts.filter((contact) => contact.name.toLowerCase().includes(normalizedFilter));
+        }
+   
+    const visibleContacts = getVisibleContacts()
+    return (<div>
+      <h1>Phonebook</h1>
+      <ContactForm onSubmitForm={handleSubmit}/>
+      <h2>Contacts</h2> 
+      <Filter value={filter} onChangeFilter={changeFilter}/>
+      <ContactList contacts={visibleContacts} onDeleteTodo={deleteTodo}/>
+    </div>) 
+    }    
+
