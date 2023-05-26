@@ -6,9 +6,9 @@ import ContactList from 'components/ContactList/ContactList';
 import Filter from 'components/Filter/Filter';
 
 export default function App(){
- 
-  const [contacts, setContacts] = useState([])
-  const [filter, setFilter] = useState('');
+  const parsedContacts = JSON.parse(localStorage.getItem("contacts"));
+  const [contacts, setContacts] = useState(parsedContacts)
+  const [filter, setFilter] = useState("");
 
     const handleSubmit = data => {
       const newContacts ={
@@ -21,25 +21,16 @@ export default function App(){
       } 
         setContacts(prevState => [...prevState, newContacts]);  
     };
- 
+    
     const changeFilter =(e)=>{
       setFilter(e.currentTarget.value)
-    }
-   
+    } 
+
     const deleteTodo = (todoId) =>{
       setContacts(prevState =>(
       prevState.contacts.filter(contact=>contact.id !== todoId)
     ));}
 
-
-debugger
-    useEffect(() => {
-      const parsedContacts = JSON.parse(localStorage.getItem("contacts"));
-      if (parsedContacts) {
-        setContacts(parsedContacts);
-      }
-    }, []);
-  
     useEffect(() => {
     localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts]);

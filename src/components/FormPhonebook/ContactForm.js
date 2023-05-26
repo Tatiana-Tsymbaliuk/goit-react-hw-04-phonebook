@@ -3,16 +3,16 @@ import './ContactForm.css'
 
 export default function ContactForm({onSubmitForm}){
 
-const [name, setName] = useState('');
-const [number, setNumber] = useState('');
+const [name, setName] = useState("");
+const [number, setNumber] = useState("");
 
 const handelChange = (e) =>{
   const { name, value} = e.currentTarget;
   switch(name){
-    case 'name':
+    case "name":
     setName(value);
     break;
-    case 'number':
+    case "number":
     setNumber(value);
     break;
     default: return; 
