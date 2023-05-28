@@ -16,19 +16,20 @@ export default function App(){
         ...data 
       }
       const someContact = contacts.some(item=> item.name.toLowerCase() === data.name.toLowerCase())
-      if (someContact) {
-        alert(`Name is already in contacts`);      
+      if (!someContact) {
+        setContacts(prevState => [...prevState, newContacts]);
+             
       } 
-        setContacts(prevState => [...prevState, newContacts]);  
+      alert(`Name is already in contacts`);     
     };
-    
+
     const changeFilter =(e)=>{
       setFilter(e.currentTarget.value)
     } 
 
     const deleteTodo = (todoId) =>{
       setContacts(prevState =>(
-      prevState.contacts.filter(contact=>contact.id !== todoId)
+      prevState.filter(contact=>contact.id !== todoId)
     ));}
 
     useEffect(() => {
