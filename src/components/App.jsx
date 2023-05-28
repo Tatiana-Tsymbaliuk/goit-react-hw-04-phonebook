@@ -17,10 +17,9 @@ export default function App(){
       }
       const someContact = contacts.some(item=> item.name.toLowerCase() === data.name.toLowerCase())
       if (!someContact) {
-        setContacts(prevState => [...prevState, newContacts]);
-             
-      } 
-      alert(`Name is already in contacts`);     
+        setContacts(prevState => [...prevState, newContacts]);      
+      } else{
+      alert(`Name is already in contacts`);  }   
     };
 
     const changeFilter =(e)=>{
